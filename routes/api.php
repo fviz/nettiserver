@@ -40,6 +40,10 @@ Route::post('/newartifact', function (Request $request) {
 
 Route::post('/getartifacts', function (Request $request) {
     $url = $request->url;
-    return App\Artifact::where('url', $url)->get();
+    $date = new DateTime();
+    $date->modify('-24 hours');
+    $formatted_date = $date->format('Y-m-d H:i:s');
+
+    return App\Artifact::where('url', $url)->where('created_at','>=',$formatted_date)->get();
 
 });
